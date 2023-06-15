@@ -1,6 +1,8 @@
 package com.alinequeiroz.springboot2.controller;
 
 import com.alinequeiroz.springboot2.domain.Anime;
+import com.alinequeiroz.springboot2.requests.AnimePostRequestBody;
+import com.alinequeiroz.springboot2.requests.AnimePutRequestBody;
 import com.alinequeiroz.springboot2.service.AnimeService;
 import com.alinequeiroz.springboot2.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +30,11 @@ public class AnimeController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> findById(@PathVariable long id){
-        return ResponseEntity.ok(animeService.findById(id));
+        return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
     @PostMapping
-    public ResponseEntity<Anime> save(@RequestBody Anime anime){
-        return new ResponseEntity<>(animeService.save(anime), HttpStatus.CREATED);
+    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody animePostRequestBody){
+        return new ResponseEntity<>(animeService.save(animePostRequestBody), HttpStatus.CREATED);
     }
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -41,8 +43,8 @@ public class AnimeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping
-    public ResponseEntity<Void> updateAnime( @RequestBody Anime anime){
-        animeService.updateAnime(anime);
+    public ResponseEntity<Void> updateAnime( @RequestBody AnimePutRequestBody animePutRequestBody){
+        animeService.updateAnime(animePutRequestBody);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
